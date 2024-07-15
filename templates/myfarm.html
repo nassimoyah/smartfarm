@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style3.css">
+    <title>MyFarm</title>
+    <style>
+
+</style>
+ <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style3.css') }}"
+    />
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+               <h2 class="logo">MyFarm</h2> 
+            </div>
+            <div class="menu">
+                <ul>
+                    
+                    <li><a href="DASHBOARD.html" >HOME</a></li>    <!--anchor tag-->
+                    <li><a href="DASHBOARD.html"> SERVICES </a></li>
+                    <li><a href="figma.png">INFOS</a></li>
+                   
+               
+                </ul>
+            </div>   
+           <div>
+            <!--  <button class="bn"><a href="https://www.youtube.com/" >dashboard</a></button> tag-->
+           
+           </div>
+            
+        </div>
+         <div class="dash">
+                
+                <h2>  </h2>
+                <hr>
+        </div>
+
+      <div class="form">
+        
+        <h2 style="color: rgb(4, 3, 3)">Projects </h2>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="myfarm.html">MYFARM</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project2</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project3</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project4</a> </h3>
+        <br />
+        
+      </div>   
+        
+      <div class="form2">
+        
+        <h2 style="color: rgb(255, 106, 0)">MyFarm Data </h2>
+        <h4 style="color: rgb(255, 106, 0)" class="temp"> </h4>
+        
+      </div> 
+      <div class="form3">
+        
+        <h2 style="color: rgb(255, 106, 0)">MyFarm Control </h2>
+       
+        
+      </div> 
+
+      <div class="gauge">
+        <div class="gauge__body">
+            <div class="gauge__fill"></div>
+            <div class="gauge__cover"></div>
+        </div>
+        <div class="tempp">temp : {{ t }}</div>
+        
+        <div class="gaugeh">
+        <div class="gauge__body">
+            <div class="gauge__fillh"></div>
+            <div class="gauge__coverh"></div>
+        </div>
+        <div class="hue">hue : {{ h }}</div>
+    
+    </div>
+      <div>
+         <input type="checkbox"
+               id="switch"
+               class="checkbox" onclick="button()" />
+                
+        <label for="switch"
+               class="toggle">
+            <p class="onof">
+                &nbsp;ON &nbsp; &nbsp; &nbsp;   OFF
+            </p>
+        </label>
+      </div>
+        <div>
+          <meta http-equiv="refresh" content="10">
+        </div>
+    
+    
+   <script src="java.js"></script>
+
+    <script>
+      function button(){ // Get the checkbox element
+        const checkbox = document.getElementById('switch');
+
+        // Add an event listener to the checkbox
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                console.log('Checkbox is checked.');
+fetch('/relay_button', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    state: 1
+                    
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+                // Do something when the checkbox is checked
+            } else {
+                console.log('Checkbox is unchecked.');
+
+
+
+                console.log('Checkbox is unchecked.');
+              
+               fetch('/relay_button', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    state: 0
+                    
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+                // Do something when the checkbox is unchecked
+            }
+        });}
+
+       
+    </script>
+
+
+</body>
+</html> 
