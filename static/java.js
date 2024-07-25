@@ -1,4 +1,7 @@
-let val ;
+let val;
+
+
+
 function getText() {
     // Get the input element by its id
     var inputElement = document.getElementById("textInput");
@@ -24,7 +27,7 @@ fetch('/login', {
             .then(data => {
                 console.log('Response:', data);
                 if (data.status === 'success') {
-              
+                  
                   console.log("true");
                   document.getElementById("demo").innerHTML = "true";
                   val = true; 
@@ -93,15 +96,13 @@ function setGaugeValue(gauge, value) {
     if (value < 0) value = 0;
     if (value > 1) value = 1;
     
-    gauge.querySelector('.gauge__fill').style.transform = `rotate(${value / 2}turn)`;
-    gauge.querySelector('.gauge__cover').textContent = `${Math.round(value * 100)}%`;
+    gauge.querySelector('.gauge__fillh').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverh').textContent = `${Math.round(value * 100)}%`;
 }
 
 // Example usage:
-const gaugeElement = document.querySelector('.gauge');
-setGaugeValue(gaugeElement, 12); // Set the gauge value to 70%
+const gaugeElement = document.querySelector('.gaugeh');
+setGaugeValue(gaugeElement, 1); // Set the gauge value to 70%
 /////////////////////////////////////////////////////////////////////////
-
-
 
 

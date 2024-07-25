@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style4.css">
+    <title>MyFarm</title>
+    <style>
+
+</style>
+ <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style4.css') }}"
+    />
+</head>
+<body>
+    <div class="main">
+        <div class="navbar">
+            <div class="icon">
+               <h2 class="logo">MyFarm</h2> 
+            </div>
+            <div class="menu">
+                <ul>
+                    
+                    <li><a href="DASHBOARD.html" >HOME</a></li>    <!--anchor tag-->
+                    <li><a href="control.html">  CONTROL </a></li>
+                    <li><a href="myfarm.html">MyFarm</a></li>
+                   
+                </ul>
+            </div>   
+           
+            
+        </div>
+         
+
+      <div class="form">
+        
+        <h2 style="color: rgb(4, 3, 3)">Projects </h2>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="myfarm.html">MYFARM</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project2</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project3</a> </h3>
+        <h3 style="color: rgb(255, 106, 0)"> <a href="amb.jpg">Project4</a> </h3>
+        <br />
+        
+      </div>   
+        
+      
+
+      
+    
+    </div>
+
+    
+
+     
+    
+    
+
+    <div class="formmm">
+        <h2 style="color: rgb(255, 106, 0)"> set a timer </h2>
+        
+        <input type="number" , placeholder="enter in hours " id="gettime" />
+        <button class="btnn" id="demo" onclick="gettime()">confirm</button>
+       <div class="gaugehldht">
+        <div class="gauge__body">
+            <div class="gauge__fillhldht"></div>
+            <div class="gauge__coverhldht"></div>
+        </div>
+        <div class="time"> time left: {{ leftt }} h {{v}} m</div>
+       
+      </div>
+ 
+
+
+       <div class="form_threshold">
+        <h2 style="color: rgb(255, 106, 0)"> set thresholds </h2>
+        
+        <input type="number" , placeholder="enter tds threshold " id="get_tds" />
+        <input type="number" , placeholder="enter ph thresholds (LOW) " id="get_LOW" />
+         <input type="number" , placeholder="enter ph thresholds (HIGH) " id="get_HIGH" />
+        <button class="btnn_ph" id="demo" onclick="getth()">confirm</button>
+       
+        </div>
+      
+
+    <meta http-equiv="refresh" content="25">
+ 
+    
+    
+   <script src="java.js"></script>
+
+    <script>
+
+        function getth() {
+      // Get the input element by its id
+    var tds = document.getElementById("get_tds");
+  var lowph = document.getElementById("get_LOW");
+  var highph = document.getElementById("get_HIGH");
+    // Get the value entered by the user
+  var tds = tds.value;
+  var lowph = lowph.value ; 
+  var highph = highph.value ; 
+    // Do something with the user input, for example, log it to the console
+  console.log("tds:", tds);
+  console.log("LOW ph ", lowph);
+  console.log("hifgh ph ", highph);
+
+  fetch('/GiveThresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tds: tds,
+                  lowph: lowph,
+                    highph : highph
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+} 
+
+
+        function gettime() {
+ var inputElement = document.getElementById("gettime");
+
+    var timer = inputElement.value;
+    console.log("timer:", timer);
+
+      fetch('/time', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    time: timer
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+}
+
+
+
+
+          document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var tdsText = document.getElementById('tdsValue').textContent;
+            // Extract the numeric TDS value
+            var tdsValue = parseFloat(tdsText.replace('ppm : ', ''));
+
+       
+             
+
+            // Check if the TDS value is greater than 500 and show an alert
+            if (tdsValue > 500) {
+                alert("Warning: TDS value is greater than 500!");
+            }
+        });
+
+   /* function button(){ // Get the checkbox element
+        const checkbox = document.getElementById('switch');
+
+        // Add an event listener to the checkbox
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                console.log('Checkbox is checked.');
+fetch('/relay_button', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    state: 1
+                    
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+                // Do something when the checkbox is checked
+            } else {
+                console.log('Checkbox is unchecked.');
+
+
+
+                console.log('Checkbox is unchecked.');
+              
+               fetch('/relay_button', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    state: 0
+                    
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+                // Do something when the checkbox is unchecked
+            }
+        });} */
+
+       
+    </script>
+
+
+</body>
+</html> 

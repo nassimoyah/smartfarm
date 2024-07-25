@@ -23,7 +23,7 @@
                 <ul>
                     
                     <li><a href="DASHBOARD.html" >HOME</a></li>    <!--anchor tag-->
-                    <li><a href="DASHBOARD.html"> SERVICES </a></li>
+                    <li><a href="control.html">  CONTROL </a></li>
                     <li><a href="figma.png">INFOS</a></li>
                    
                
@@ -60,7 +60,7 @@
       </div> 
       <div class="form3">
         
-        <h2 style="color: rgb(255, 106, 0)">MyFarm Control </h2>
+        <h2 style="color: rgb(255, 106, 0)">MyFarm Data </h2>
        
         
       </div> 
@@ -70,17 +70,56 @@
             <div class="gauge__fill"></div>
             <div class="gauge__cover"></div>
         </div>
-        <div class="tempp">temp : {{ t }}</div>
+        <div class="tempp" id ="tempp">temp : {{ t }}</div>
         
         <div class="gaugeh">
         <div class="gauge__body">
             <div class="gauge__fillh"></div>
             <div class="gauge__coverh"></div>
         </div>
-        <div class="hue">hue : {{ h }}</div>
+        <div class="hue" id ="humidity">hue : {{ h }}</div>
+
+         <div class="gaugehl">
+        <div class="gauge__body">
+            <div class="gauge__fillhl"></div>
+            <div class="gauge__coverhl"></div>
+        </div>
+        <div class="level" id="level">level : {{ l }}</div>
     
     </div>
-      <div>
+
+     <div class="gaugehlv">
+        <div class="gauge__body">
+            <div class="gauge__fillhlv"></div>
+            <div class="gauge__coverhlv"></div>
+        </div>
+        <div class="light">light : {{ liv }}</div>
+    
+    </div>
+
+    <div class="gaugehld">
+        <div class="gauge__body">
+            <div class="gauge__fillhld"></div>
+            <div class="gauge__coverhld"></div>
+        </div>
+        <div class="tds" id="tdsValue">ppm : {{ tds }}</div>
+    
+    </div>
+
+        <div class="gaugehldh">
+        <div class="gauge__body">
+            <div class="gauge__fillhldh"></div>
+            <div class="gauge__coverhldh"></div>
+        </div>
+        <div class="ph">ph : {{ ph }}</div>
+    
+    </div>
+
+    <div id="threshTdsValue" style="display:none;">{{ thresh_tds }}</div>
+
+    </div>
+    <meta http-equiv="refresh" content="5">
+   <!--<div>
          <input type="checkbox"
                id="switch"
                class="checkbox" onclick="button()" />
@@ -94,13 +133,94 @@
       </div>
         <div>
           <meta http-equiv="refresh" content="10">
-        </div>
+        </div>-->   
     
     
    <script src="java.js"></script>
 
     <script>
-      function button(){ // Get the checkbox element
+
+        function getth() {
+      // Get the input element by its id
+    var tds = document.getElementById("get_tds");
+  var lowph = document.getElementById("get_LOW");
+  var highph = document.getElementById("get_HIGH");
+    // Get the value entered by the user
+  var tds = tds.value;
+  var lowph = lowph.value ; 
+  var highph = highph.value ; 
+    // Do something with the user input, for example, log it to the console
+  console.log("tds:", tds);
+  console.log("LOW ph ", lowph);
+  console.log("hifgh ph ", highph);
+
+  fetch('/GiveThresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tds: tds,
+                  lowph: lowph,
+                    highph : highph
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+} 
+
+
+        function gettime() {
+ var inputElement = document.getElementById("gettime");
+
+    var timer = inputElement.value;
+    console.log("timer:", timer);
+
+      fetch('/time', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    time: timer
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+}
+
+
+
+
+          document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var tdsText = document.getElementById('tdsValue').textContent;
+            // Extract the numeric TDS value
+            var tdsValue = parseFloat(tdsText.replace('ppm : ', ''));
+            
+            var threshTdsText = document.getElementById('threshTdsValue').textContent;
+            var threshTdsValue = parseFloat(threshTdsText) || 0;
+       
+             
+
+            // Check if the TDS value is greater than 500 and show an alert
+            if (tdsValue > threshTdsValue) {
+                alert("Warning: TDS value is greater than 500!");
+            }
+        });
+
+   /* function button(){ // Get the checkbox element
         const checkbox = document.getElementById('switch');
 
         // Add an event listener to the checkbox
@@ -152,8 +272,78 @@ fetch('/relay_button', {
             });
                 // Do something when the checkbox is unchecked
             }
-        });}
+        });} */
 
+        function setGaugeValue(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fillh').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverh').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var hum = document.getElementById('humidity').textContent;
+            // Extract the numeric TDS value
+            var hueval = parseFloat(hum.replace('hue : ', ''));
+            hueval = Math.floor(hueval)
+            let mapp = hueval / 100 ; 
+            console.log(mapp)
+            const gaugeElement = document.querySelector('.gaugeh');
+            setGaugeValue(gaugeElement, mapp); 
+        });
+
+
+
+
+
+             function setGaugeValue2(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fill').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__cover').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var t = document.getElementById('tempp').textContent;
+            // Extract the numeric TDS value
+            var tval = parseFloat(t.replace('temp : ', ''));
+            tval = Math.floor(tval)
+            let mapp2 = tval*100 /60 /100 ; 
+            console.log(mapp2)
+            const gaugeElement = document.querySelector('.gauge');
+            setGaugeValue2(gaugeElement, mapp2); 
+        });
+
+
+             function setGaugeValueL(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fillhl').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverhl').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var l = document.getElementById('level').textContent;
+            // Extract the numeric TDS value
+            var lval = parseFloat(l.replace('level : ', ''));
+            tval = Math.floor(lval)
+            let mapp3 =  (tval /100) ; 
+
+            console.log(mapp3)
+            const gaugeElement = document.querySelector('.gaugehl');
+            setGaugeValueL(gaugeElement, mapp3); 
+        });
+
+
+// Example usage:
+// Set the gauge value to 70%
+/////////////////////////////////////////////////////////////////////////
        
     </script>
 

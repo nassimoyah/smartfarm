@@ -756,7 +756,7 @@ h3 a{
     height: 300px;
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
-    top: 50px;
+    top: -280px;
     left: -312px;
 
     transform: translate(0%,-5%);
@@ -764,7 +764,7 @@ h3 a{
     padding: 25px;
     margin-top: 400px;
     float: right;
-   margin-left: 250px;
+   margin-left: 800px;
 }
 
 .gauget {
@@ -849,13 +849,13 @@ h3 a{
     height: 295px;
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
-    top: -263px;
-    left: 100px;
+    top: -260px;
+    left: 500px;
 
     transform: translate(0%,-5%);
     border-radius: 10px;
     padding: 25px;
     margin-top: 280px;
     float: right;
-   margin-left: 280px;
+   margin-left: 20px;
 }
