@@ -63,7 +63,7 @@
         <button class="btnn" id="demo" onclick="gettime()">confirm</button>
        <div class="gaugehldht">
         <div class="gauge__body">
-            <div class="gauge__fillhldht"></div>
+            
             <div class="gauge__coverhldht"></div>
         </div>
         <div class="time"> time left: {{ leftt }} h {{v}} m</div>
@@ -76,11 +76,35 @@
         <h2 style="color: rgb(255, 106, 0)"> set thresholds </h2>
         
         <input type="number" , placeholder="enter tds threshold " id="get_tds" />
+        <button class="btnn_ph" id="demo" onclick="getth1()">confirm</button>
         <input type="number" , placeholder="enter ph thresholds (LOW) " id="get_LOW" />
          <input type="number" , placeholder="enter ph thresholds (HIGH) " id="get_HIGH" />
         <button class="btnn_ph" id="demo" onclick="getth()">confirm</button>
        
+                 <input type="number" , placeholder="enter temp thresholds  " id="get_temp" />
+        <button class="btnn_ph" id="demo" onclick="getthresh()">confirm</button>
+
         </div>
+
+           <div class="formb">
+        <h2 style="color: rgb(255, 106, 0)"> run pump </h2>
+
+      </div>
+
+
+        <div><input type="checkbox"
+               id="switch"
+               class="checkbox" onclick="button()" />
+                
+        <label for="switch"
+               class="toggle">
+            <p class="onof">
+                &nbsp;ON &nbsp; &nbsp; &nbsp;   OFF
+            </p>
+        </label></div>
+
+        
+      
       
 
     <meta http-equiv="refresh" content="25">
@@ -93,15 +117,15 @@
 
         function getth() {
       // Get the input element by its id
-    var tds = document.getElementById("get_tds");
+   
   var lowph = document.getElementById("get_LOW");
   var highph = document.getElementById("get_HIGH");
     // Get the value entered by the user
-  var tds = tds.value;
+  
   var lowph = lowph.value ; 
   var highph = highph.value ; 
     // Do something with the user input, for example, log it to the console
-  console.log("tds:", tds);
+  
   console.log("LOW ph ", lowph);
   console.log("hifgh ph ", highph);
 
@@ -111,9 +135,71 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    tds: tds,
                   lowph: lowph,
                     highph : highph
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+} 
+
+ function getth1() {
+      // Get the input element by its id
+    var tds = document.getElementById("get_tds");
+
+    // Get the value entered by the user
+  var tds = tds.value;
+
+    // Do something with the user input, for example, log it to the console
+  console.log("tds:", tds);
+
+
+  fetch('/GiveThresh1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tds: tds
+                  
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+} 
+
+
+function getthresh() {
+      // Get the input element by its id
+    var t = document.getElementById("get_temp");
+
+    // Get the value entered by the user
+  var t = t.value;
+
+    // Do something with the user input, for example, log it to the console
+  console.log("t:", t);
+
+
+  fetch('/temp_thresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    t_thresh: t
+                  
                 })
             })
             .then(response => response.json())
@@ -169,7 +255,7 @@
             }
         });
 
-   /* function button(){ // Get the checkbox element
+    function button(){ // Get the checkbox element
         const checkbox = document.getElementById('switch');
 
         // Add an event listener to the checkbox
@@ -221,7 +307,9 @@ fetch('/relay_button', {
             });
                 // Do something when the checkbox is unchecked
             }
-        });} */
+        });}
+
+        
 
        
     </script>

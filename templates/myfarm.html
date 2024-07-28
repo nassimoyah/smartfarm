@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style3.css">
     <title>MyFarm</title>
     <style>
@@ -93,7 +94,7 @@
             <div class="gauge__fillhlv"></div>
             <div class="gauge__coverhlv"></div>
         </div>
-        <div class="light">light : {{ liv }}</div>
+        <div class="light" id ="light">light : {{ liv }}</div>
     
     </div>
 
@@ -111,7 +112,7 @@
             <div class="gauge__fillhldh"></div>
             <div class="gauge__coverhldh"></div>
         </div>
-        <div class="ph">ph : {{ ph }}</div>
+        <div class="ph" id = "ph">ph : {{ ph }}</div>
     
     </div>
 
@@ -216,63 +217,11 @@
 
             // Check if the TDS value is greater than 500 and show an alert
             if (tdsValue > threshTdsValue) {
-                alert("Warning: TDS value is greater than 500!");
+                alert("Warning: TDS value is greater  than expected ");
             }
         });
 
-   /* function button(){ // Get the checkbox element
-        const checkbox = document.getElementById('switch');
-
-        // Add an event listener to the checkbox
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                console.log('Checkbox is checked.');
-fetch('/relay_button', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    state: 1
-                    
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
-                // Do something when the checkbox is checked
-            } else {
-                console.log('Checkbox is unchecked.');
-
-
-
-                console.log('Checkbox is unchecked.');
-              
-               fetch('/relay_button', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    state: 0
-                    
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-                // Do something when the checkbox is unchecked
-            }
-        });} */
+   
 
         function setGaugeValue(gauge, value) {
     if (value < 0) value = 0;
@@ -339,6 +288,79 @@ fetch('/relay_button', {
             const gaugeElement = document.querySelector('.gaugehl');
             setGaugeValueL(gaugeElement, mapp3); 
         });
+
+
+
+         function setGaugeValueLi(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fillhlv').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverhlv').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var light = document.getElementById('light').textContent;
+            // Extract the numeric TDS value
+            var light_val = parseFloat(light.replace('light : ', ''));
+            lval = Math.floor(light_val)
+            let mapp4 =  (lval /100) ; 
+
+            console.log(mapp4)
+            const gaugeElement = document.querySelector('.gaugehlv');
+            setGaugeValueLi(gaugeElement, mapp4); 
+        });
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+        function setGaugeValue_tds(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fillhld').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverhld').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var light = document.getElementById('tdsValue').textContent;
+            // Extract the numeric TDS value
+            var light_val = parseFloat(light.replace('ppm : ', ''));
+            lval = Math.floor(light_val)
+            let mapp4 = lval *(100 /1000 )/100
+
+            console.log(mapp4)
+            const gaugeElement = document.querySelector('.gaugehld');
+            setGaugeValue_tds(gaugeElement, mapp4); 
+        });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function setGaugeValue_ph(gauge, value) {
+    if (value < 0) value = 0;
+    if (value > 1) value = 1;
+    
+    gauge.querySelector('.gauge__fillhldh').style.transform = `rotate(${value / 2}turn)`;
+    gauge.querySelector('.gauge__coverhldh').textContent = `${Math.round(value * 100)}%`;
+}
+         
+      document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the TDS value from the div element
+            var light = document.getElementById('ph').textContent;
+            // Extract the numeric TDS value
+            var light_val = parseFloat(light.replace('ph : ', ''));
+            lval = Math.floor(light_val)
+            let mapp4 = lval /14
+
+            console.log(mapp4)
+            const gaugeElement = document.querySelector('.gaugehldh');
+            setGaugeValue_ph(gaugeElement, mapp4); 
+        });
+
+
 
 
 // Example usage:

@@ -155,7 +155,22 @@ ul li a{
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
     top: -160px;
-    left: 500px;
+    left: 700px;
+
+    transform: translate(0%,-5%);
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 280px;
+    float: right;
+   margin-left: -100px;
+}
+.formb {
+    width: 250px;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
+    position: absolute;
+    top: -270px;
+    left: 790px;
 
     transform: translate(0%,-5%);
     border-radius: 10px;
@@ -171,14 +186,14 @@ ul li a{
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
     top: -160px;
-    left: 500px;
+    left: 50px;
 
     transform: translate(0%,-5%);
     border-radius: 10px;
     padding: 25px;
     margin-top: 280px;
     float: right;
-   margin-left: 280px;
+   margin-left: 28px;
 }
 
 .form2 h2 {
@@ -684,8 +699,8 @@ h3 a{
 		border-radius: 30px;
 		border: 2px solid gray;
         position: absolute;
-        left: 420px;
-        top: 25px;
+        left: 790px;
+        top: 77px;
         padding-top: 11px;
 	}
 		
@@ -753,11 +768,11 @@ h3 a{
 
 .formmm {
     width: 250px;
-    height: 300px;
+    height: 400px;
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
     top: -280px;
-    left: -312px;
+    left: -420px;
 
     transform: translate(0%,-5%);
     border-radius: 10px;
@@ -846,11 +861,11 @@ h3 a{
 
 .form_threshold {
     width: 250px;
-    height: 295px;
+    height: 400px;
     background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
     position: absolute;
     top: -260px;
-    left: 500px;
+    left: 300px;
 
     transform: translate(0%,-5%);
     border-radius: 10px;

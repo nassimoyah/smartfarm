@@ -76,9 +76,13 @@ def create_user():
     low = ph1["lowph"]
     high = ph1["highph"]
 
+    t = list(db.t_thresh.find())
+    t1 = t[0]
+    t2 = t1["t_thresh"]
+
     print("time",time)
     return Response(
-            response=json.dumps({"timer": time  , "low" :low , "high" : high }
+            response=json.dumps({"timer": time  , "low" :low , "high" : high , "state" : relay_state , "t_thresh" : t2}
              ), status=200,
                         mimetype="application/json")
 
@@ -241,6 +245,21 @@ def relay():
     
     return jsonify({'status': 'success', 'data': str(result)})   
 
+@app.route("/temp_thresh",methods=['POST'])
+def t_thresh():
+    t = request.json.get('t_thresh')
+    print("thresh",t)
+    # Insert data into MongoDB
+    user_data = {
+        't_thresh': t
+        
+    }
+    result = db.t_thresh.update_one({"_id": ObjectId("66a5172007e45970c09d69e0")},
+        {"$set": {"t_thresh" :t }}                          
+                                         )
+    
+    return jsonify({'status': 'success', 'data': str(result)})   
+
 @app.route("/time",methods=['POST'])
 def time():
     global timme 
@@ -261,21 +280,40 @@ def time():
 @app.route('/GiveThresh', methods=['POST'])
 def thresh():
     print("GiveThresh")
-    tds = request.json.get('tds')
+    
     lowph  = request.json.get('lowph')
     highph  = request.json.get('highph')
 
     # Insert data into MongoDB
     user_data = {
-        'tds': tds,
+        
         'lowph': lowph ,
         'highph':  15 
     }
     result = db.thresh.update_one({"_id": ObjectId("669ef0232911e36d89c51f0f")},
-        {"$set": {"tds" :tds ,"lowph":lowph , "highph":highph  }})
+        {"$set": {"lowph":lowph , "highph":highph  }})
     
     
     return jsonify({'status': 'success', 'data': str(result.inserted_id)})
+
+
+@app.route('/GiveThresh1', methods=['POST'])
+def thresh1():
+    print("GiveThresh")
+    tds = request.json.get('tds')
+   
+
+    # Insert data into MongoDB
+    user_data = {
+        'tds': tds,
+       
+    }
+    result = db.thresh.update_one({"_id": ObjectId("669ef0232911e36d89c51f0f")},
+        {"$set": {"tds" :tds  }})
+    
+    
+    return jsonify({'status': 'success', 'data': str(result.inserted_id)})
+
 
 ####################################################
 if __name__ == "__main__" :
